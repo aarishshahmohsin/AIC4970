@@ -1,17 +1,43 @@
-'''
-bezout's identity 
-d = ax + by is only solvable when 
+"""
+bezout's identity
+d = ax + by is only solvable when
 d is also divisible by gcd(a, b)
 
-a, b -> jug capacities 
+a, b -> jug capacities
 x, y -> integers (no of fills/empties/transfers)
 
-'''
+"""
+
+"""
+let S = {ax + by | x, y belongs to Z, ax + by > 0}
+
+S belongs to N, and s is non empty 
+by well ordering principle(a set of non negative integers contains a smallest element) -> d 
+then d = ax_0 + by_0 (x_0, y_0)
+
+d | a and d | b 
+proof:
+
+a = qd + r 
+r = a - qd = a - q(ax0 + by0) = a (1 - qx0) + b(-qy0) 
+
+if r > 0 then -> r belongs to S, if r < d then it contradicts that d is the smallest non neg int in S.
+
+therefore, r = 0. and hence d | a and d | b 
+
+d is a common divisor of a and b 
+since d = ax + by, any other common divisor of a and b must divide d. 
+
+therefore, d = gcd(a, b) 
+
+"""
+
 
 def gcd(a: int, b: int) -> int:
     if b == 0:
         return a
     return gcd(b, a % b)
+
 
 def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = False):
     from_jug = from_cap
@@ -19,7 +45,7 @@ def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = Fals
     steps = 1
 
     while from_jug != target and to_jug != target:
-        if log: 
+        if log:
             print(f"Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
 
         transfer = min(from_jug, to_cap - to_jug)
@@ -28,7 +54,7 @@ def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = Fals
         from_jug -= transfer
         steps += 1
 
-        if log: 
+        if log:
             print(f"Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
 
         if from_jug == target or to_jug == target:
@@ -57,7 +83,7 @@ if __name__ == "__main__":
     d = int(input("Enter the amount to be measured: "))
 
     if n > m:
-        n, m = m, n  
+        n, m = m, n
 
     if not is_solvable(n, m, d):
         print("Measurement not possible with given jar sizes.")
