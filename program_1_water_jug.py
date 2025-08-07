@@ -39,14 +39,17 @@ def gcd(a: int, b: int) -> int:
     return gcd(b, a % b)
 
 
-def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = False):
+def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = False, flag = False):
     from_jug = from_cap
     to_jug = 0
     steps = 1
 
     while from_jug != target and to_jug != target:
         if log:
-            print(f"Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
+            if flag:
+                print(f"1. Current Capacities {from_jug/10}/{from_cap/10} and {to_jug/10}/{to_cap/10}")
+            else:
+                print(f"1. Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
 
         transfer = min(from_jug, to_cap - to_jug)
 
@@ -55,7 +58,10 @@ def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = Fals
         steps += 1
 
         if log:
-            print(f"Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
+            if flag:
+                print(f"2. Current Capacities {from_jug/10}/{from_cap/10} and {to_jug/10}/{to_cap/10}")
+            else:
+                print(f"2. Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
 
         if from_jug == target or to_jug == target:
             break
@@ -68,6 +74,12 @@ def water_jug_solution(from_cap: int, to_cap: int, target: int, log: bool = Fals
             to_jug = 0
             steps += 1
 
+    if from_jug != target: from_jug = 0 
+    if to_jug != target: to_jug = 0
+    if flag:
+        print(f"2. Current Capacities {from_jug/10}/{from_cap/10} and {to_jug/10}/{to_cap/10}")
+    else:
+        print(f"3. Current Capacities {from_jug}/{from_cap} and {to_jug}/{to_cap}")
     return steps
 
 
@@ -78,18 +90,28 @@ def is_solvable(a: int, b: int, d: int) -> bool:
 
 
 if __name__ == "__main__":
-    n = int(input("Enter first jar capacity: "))
-    m = int(input("Enter second jar capacity: "))
-    d = int(input("Enter the amount to be measured: "))
+    n = float(input("Enter first jar capacity: "))
+    m = float(input("Enter second jar capacity: "))
 
-    if n > m:
-        n, m = m, n
+    d = float(input("Enter the amount to be measured: "))
+    flag = 0 
+
+    if float(m) != int(m) or float(n) != int(n):
+        flag = 1
+        n *= 10 
+        m *= 10 
+        d *= 10 
+        
+    if m == 0 or n == 0:
+        print("container has 0 capacity")
+        exit(1)
+
 
     if not is_solvable(n, m, d):
         print("Measurement not possible with given jar sizes.")
     else:
         steps1 = water_jug_solution(n, m, d, log=True)
-        print("-" * 50)
-        steps2 = water_jug_solution(m, n, d, log=True)
-        print("-" * 50)
-        print(f"Minimum steps required: {min(steps1, steps2)}")
+        # print("-" * 50)
+        # steps2 = water_jug_solution(m, n, d, log=True)
+        # print("-" * 50)
+        # print(f"Minimum steps required: {min(steps1, steps2)}")
