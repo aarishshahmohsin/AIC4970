@@ -10,6 +10,14 @@ from PIL import Image, ImageTk
 
 # -------------------------
 # VAE (must match training)
+# 29 -> smiling
+# 01 -> hair color
+# 05 -> hair style
+# 11 -> gender
+# 14 -> background
+# 15 -> orientation
+# 16 -> race
+
 # -------------------------
 class VAE(nn.Module):
     def __init__(self, latent_dim=32):
